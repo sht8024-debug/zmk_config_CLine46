@@ -15,14 +15,32 @@
     combos {
         compatible = "zmk,combos";
 
-        tab {
-            bindings = <&kp TAB>;
-            key-positions = <11 12>;
+        // K+L 同時押し → スクロールレイヤー(3)ホールド
+        combo_scroll {
+            bindings = <&mo 3>;
+            key-positions = <20 21>;
+            timeout-ms = <50>;
         };
 
-        shift_tab {
-            bindings = <&kp LS(TAB)>;
-            key-positions = <12 13>;
+        // Q+A+Z 同時押し → BTプロファイル3(予備枠)選択
+        combo_pair {
+            bindings = <&bt BT_SEL 3>;
+            key-positions = <1 13 25>;
+            timeout-ms = <50>;
+        };
+
+        // T+O+B 同時押し → ブートローダー(UF2書込モード)
+        combo_boot {
+            bindings = <&bootloader>;
+            key-positions = <5 9 29>;
+            timeout-ms = <50>;
+        };
+
+        // I+O 同時押し → Gestureレイヤー(7)ホールド
+        combo_gesture {
+            bindings = <&mo 7>;
+            key-positions = <8 9>;
+            timeout-ms = <50>;
         };
     };
 
@@ -49,72 +67,83 @@
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
+        base {
+            display-name = "base";
             bindings = <
-&kp TAB      &kp Q     &kp W      &kp E     &kp R                &kp T                                            &kp Y     &kp U   &kp I       &kp O          &kp P       &kp LEFT_BRACKET
-&kp LCTRL    &kp A     &kp S      &kp D     &kp F                &kp G                                            &kp H     &kp J   &kp K       &kp L          &kp MINUS   &kp RIGHT_BRACKET
-&kp LSHIFT   &kp Z     &kp X      &kp C     &kp V                &kp B                                            &kp N     &kp M   &kp COMMA   &kp DOT        &mo 3       &kp RSHIFT
-             &kp ESC   &kp LGUI   &kp LALT  &lt 2 INT_MUHENKAN   &lt 1 SPACE   &mt LSFT INT_HENKAN      &kp RET   &kp BSPC                      &kp NUMBER_9   &kp DEL  
+&kp TAB     &kp Q         &kp W     &kp E     &kp R           &kp T                                      &kp Y    &kp U            &kp I      &kp O    &kp P              &kp LEFT_BRACKET
+&kp LCTRL   &kp A         &kp S     &kp D     &kp F           &kp G                                      &kp H    &kp J            &kp K      &kp L    &kp MINUS          &kp RIGHT_BRACKET
+&kp LSHIFT  &mt LSHIFT Z  &kp X     &kp C     &kp V           &kp B                                      &kp N    &kp M            &kp COMMA  &kp DOT  &mt RSHIFT SLASH   &mo 3
+            &kp TAB       &kp LCTRL &kp LALT  &mt LGUI LANG2  &lt 1 SPACE   &lt 2 BSPC      &lt 4 RET    &mt RGUI LANG1                       &kp UNDER  &kp QMARK
             >;
         };
 
-        
-        layer_1 {
+        symbol {
+            display-name = "symbol";
             bindings = <
-&kp CARET   &kp EQUAL      &kp NUMBER_7   &kp NUMBER_8   &kp NUMBER_9   &kp AT_SIGN                            &kp LEFT_PARENTHESIS    &kp DOUBLE_QUOTES   &kp RIGHT_PARENTHESIS   &kp SEMI    &kp EXCLAMATION   &kp QMARK
-&kp MINUS   &kp PLUS       &kp NUMBER_4   &kp NUMBER_5   &kp NUMBER_6   &kp HASH                               &kp LEFT_BRACKET        &kp SINGLE_QUOTE    &kp RIGHT_BRACKET       &kp COLON   &kp AMPERSAND     &kp PIPE
-&kp SLASH   &kp ASTERISK   &kp NUMBER_1   &kp NUMBER_2   &kp NUMBER_3   &kp UNDERSCORE                         &kp SLASH               &kp BACKSLASH       &kp COMMA               &kp DOT     &kp DOLLAR        &kp PERCENT
-            &kp ESC        &kp NUMBER_0   &kp DOT        &trans         &trans           &trans      &kp RET   &kp BSPC                                                            &kp DEL     &trans 
+&trans   &none            &kp PSCRN        &kp LS(LG(S))  &kp SEMI     &kp COLON                             &kp CARET  &kp GRAVE  &kp LBKT  &kp RBKT  &kp AT_SIGN  &trans
+&trans   &kp EXCL         &kp DQT          &kp HASH       &kp DOLLAR   &kp PRCNT                             &kp AMPS   &kp SQT    &kp LPAR  &kp RPAR  &kp UNDER    &trans
+&trans   &kp SLASH        &kp STAR         &kp MINUS      &kp PLUS     &kp EQUAL                             &kp PIPE   &kp TILDE  &kp LBRC  &kp RBRC  &kp BSLH     &trans
+         &kp ESC          &kp LS(LG(N3))   &kp LS(LG(N4)) &none        &none        &mo 3         &to 0     &to 5                           &none      &none
             >;
         };
 
-
-        MOUSE {
+        number {
+            display-name = "number";
             bindings = <
-&trans   &trans   &kp F7   &kp F8   &kp F9   &kp F10                         &kp LC(Y)   &kp LC(C)        &kp LC(V)        &kp LC(X)         &kp LC(P)   &trans
-&trans   &trans   &kp F4   &kp F5   &kp F6   &kp F11                         &kp LC(Z)   &mkp MB1         &kp UP_ARROW     &mkp MB2          &kp LC(F)   &trans
-&trans   &trans   &kp F1   &kp F2   &kp F3   &kp F12                         &kp LC(A)   &kp LEFT_ARROW   &kp DOWN_ARROW   &kp RIGHT_ARROW   &trans      &trans
-         &trans   &trans   &trans   &trans   &trans    &trans      &kp RET   &kp BSPC                                      &kp HOME          &kp END
+&trans   &kp F1    &kp F2    &kp F3   &kp F4   &kp F5                              &kp N1   &kp N2  &kp N3  &kp EQUAL  &kp AMPS   &trans
+&trans   &kp F6    &kp F7    &kp F8   &kp F9   &kp F10                             &kp N4   &kp N5  &kp N6  &kp PLUS   &kp MINUS  &trans
+&trans   &kp F11   &kp F12   &trans   &trans   &trans                              &kp N7   &kp N8  &kp N9  &kp STAR   &kp SLASH  &trans
+         &kp ESC   &none     &none    &none    &none    &none            &kp DOT   &kp N0                   &kp LPAR   &kp RPAR
             >;
         };
 
-
-        SCROLL {
+        scroll {
+            display-name = "scroll";
             bindings = <
-&bt BT_CLR       &trans   &trans         &trans         &trans         &trans                                &trans   &trans   &trans   &trans   &trans   &trans
-&bt BT_CLR_ALL   &trans   &bt BT_SEL 4   &trans         &trans         &trans                                &trans   &trans   &trans   &trans   &trans   &trans
-&trans           &trans   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &trans                                &trans   &trans   &trans   &trans   &trans   &trans
-                 &trans   &bt BT_SEL 0   &trans         &trans         &trans   &trans      &studio_unlock   &trans                     &trans   &trans  
+&none   &none   &none   &none   &none   &none                                &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_NXT  &none
+&none   &none   &none   &none   &none   &none                                &none         &none         &mkp LCLK     &mkp RCLK     &mkp MCLK   &none
+&none   &none   &none   &none   &none   &none                                &to 0         &none         &none         &none         &to 5       &none
+        &none   &none   &none   &none   &none   &none      &studio_unlock    &none                                     &none         &none
             >;
         };
 
-
-        layer_4 {
+        move {
+            display-name = "move";
             bindings = <
-&trans   &trans   &trans         &trans         &trans         &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &bt BT_SEL 4   &trans         &trans         &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &bt BT_SEL 1   &bt BT_SEL 2   &bt BT_SEL 3   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-         &trans   &bt BT_SEL 0   &trans         &trans         &trans   &trans      &trans   &trans                     &trans   &trans 
+&trans   &kp LC(LG(Q))  &trans   &trans   &trans      &kp KP_N2                            &kp LC(UP)   &kp LC(LEFT)  &kp UP    &kp LC(RIGHT)  &kp LC(DOWN)  &trans
+&trans   &trans         &trans   &trans   &trans      &kp KP_N1                            &kp LC(A)    &kp LEFT      &kp DOWN  &kp RIGHT      &kp LC(E)     &trans
+&trans   &trans         &trans   &trans   &trans      &kp KP_N0                            &kp C_PREV   &kp LG(LEFT)  &kp N1    &kp LG(RIGHT)  &kp C_NEXT    &trans
+         &kp ESC        &none    &none    &none       &mkp MCLK   &none       &mkp LCLK    &mkp RCLK                            &kp N0         &kp N1
             >;
         };
 
-
-        layer_5 {
+        wbase {
+            display-name = "wbase";
             bindings = <
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-         &trans   &trans   &trans   &trans   &trans   &trans      &trans   &trans                     &trans   &trans       
+&trans   &trans     &trans   &trans            &trans   &trans                             &trans   &trans            &trans  &trans  &trans  &trans
+&trans   &trans     &trans   &trans            &trans   &trans                             &trans   &trans            &trans  &trans  &trans  &trans
+&trans   &trans     &trans   &trans            &trans   &trans                             &trans   &trans            &trans  &trans  &trans  &trans
+         &trans     &kp LGUI &trans            &mt LCTRL LANG2   &trans  &trans   &lt 6 RET   &mt RCTRL LANG1                 &trans  &trans
             >;
         };
 
-
-        layer_6 {
+        wmove {
+            display-name = "wmove";
             bindings = <
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-&trans   &trans   &trans   &trans   &trans   &trans                        &trans   &trans   &trans   &trans   &trans   &trans
-         &trans   &trans   &trans   &trans   &trans   &trans      &trans   &trans                     &trans   &trans 
+&trans   &kp LG(L)  &trans   &trans   &trans   &trans                            &kp LG(TAB)  &kp LC(LG(DOWN))  &kp UP    &kp LC(LG(RIGHT))  &trans      &trans
+&trans   &trans     &trans   &trans   &trans   &trans                            &kp HOME     &kp LEFT          &kp DOWN  &kp RIGHT          &kp END     &trans
+&trans   &trans     &trans   &trans   &trans   &trans                            &kp C_PREV   &kp LA(LEFT)      &trans    &kp LA(RIGHT)      &kp C_NEXT  &trans
+         &kp ESC    &trans   &trans   &trans   &trans   &trans        &trans     &trans                                   &trans             &trans
+            >;
+        };
+
+        gesture {
+            display-name = "gesture";
+            bindings = <
+&none   &none   &none   &none   &none   &none                          &none   &none          &kp LC(DOWN)  &none         &none   &none
+&none   &none   &none   &none   &none   &none                          &none   &kp LC(RIGHT)  &none         &kp LC(LEFT)  &none   &none
+&none   &none   &none   &none   &none   &none                          &none   &none          &kp LC(UP)    &none         &none   &none
+        &none   &none   &none   &none   &none   &none        &none     &none                                &none         &none
             >;
         };
     };
