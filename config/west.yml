@@ -14,7 +14,7 @@ manifest:
     # 2026-05-01時点(メーカービルド成功時)のコミットに固定（mainブランチ追従による非互換ビルドエラー回避）
     - name: zmk
       remote: cormoran
-      revision: e5397fd8588d691f7dae08c1f9f55667e38be287
+      revision: 4493783ef88ce2e653bf8217c92ee17140df71e3
       import: app/west.yml
     - name: zmk-feature-non-lipo-battery-management
       remote: takamaru-fpv
