@@ -146,5 +146,16 @@
         &none   &none   &none   &none   &none   &none        &none     &none                                &none         &none
             >;
         };
+
+        // トラックボール自動発動用（Conductor仕様: K=左 L=右 -=中クリック、他は無効）
+        mouse {
+            display-name = "mouse";
+            bindings = <
+&none   &none   &none   &none   &none   &none                          &none   &none      &none      &none      &none      &none
+&none   &none   &none   &none   &none   &none                          &none   &none      &mkp LCLK  &mkp RCLK  &mkp MCLK  &none
+&none   &none   &none   &none   &none   &none                          &none   &none      &none      &none      &none      &none
+        &none   &none   &none   &none   &none   &none        &none     &none                         &none      &none
+            >;
+        };
     };
 };
