@@ -55,6 +55,14 @@
             bindings = <&to 0 &macro_param_1to1 &kp MACRO_PLACEHOLDER>;
             label = "TO_LAYER_0";
         };
+
+        // どの状態からでも確実にMac(base)へ戻る: wbaseを一旦ONにしてからOFF
+        to_mac: to_mac {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 1 &tog 1>;
+            label = "TO_MAC";
+        };
     };
 
     behaviors {
@@ -97,7 +105,7 @@
 &trans   &kp F1    &kp F2    &kp F3   &kp F4   &kp F5                              &kp N1   &kp N2  &kp N3  &kp EQUAL  &kp AMPS   &trans
 &trans   &kp F6    &kp F7    &kp F8   &kp F9   &kp F10                             &kp N4   &kp N5  &kp N6  &kp PLUS   &kp MINUS  &trans
 &trans   &kp F11   &kp F12   &trans   &trans   &trans                              &kp N7   &kp N8  &kp N9  &kp STAR   &kp SLASH  &trans
-         &kp ESC   &none     &to 0    &to 1    &none    &none            &kp DOT   &kp N0                   &kp LPAR   &kp RPAR
+         &kp ESC   &tog 1    &to_mac  &to 1    &none    &none            &kp DOT   &kp N0                   &kp LPAR   &kp RPAR
             >;
         };
 
