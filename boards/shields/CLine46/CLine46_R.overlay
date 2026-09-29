@@ -114,7 +114,7 @@
             <&zip_xy_to_scroll_mapper>,                         //スクロールモードに変更
             <&zip_scroll_transform INPUT_TRANSFORM_X_INVERT>,   //スクロールのX軸反転
             <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,   //スクロールのY軸反転(2026-07-27 有効化: 上下を逆に)
-            <&zip_vscroll_scaler 1 64>,                         //縦スクロール量を1/64倍(2026-09-29 Conductor実測に合わせる・旧1/8)
+            <&zip_vscroll_scaler 1 128>,                        //縦スクロール量を1/128倍(2026-09-29 Conductor実測に合わせる・旧1/8)
             <&zip_hscroll_scaler 0 1>;                          //横スクロールは送らない(Conductor実測で横成分0のため)
     };
 };
