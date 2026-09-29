@@ -70,6 +70,25 @@
     };
 };
 
+// スクロール倍率を縦・横で別々に指定するための自前スケーラー
+/ {
+    zip_vscroll_scaler: zip_vscroll_scaler {
+        compatible = "zmk,input-processor-scaler";
+        #input-processor-cells = <2>;
+        type = <INPUT_EV_REL>;
+        codes = <INPUT_REL_WHEEL>;
+        track-remainders;
+    };
+
+    zip_hscroll_scaler: zip_hscroll_scaler {
+        compatible = "zmk,input-processor-scaler";
+        #input-processor-cells = <2>;
+        type = <INPUT_EV_REL>;
+        codes = <INPUT_REL_HWHEEL>;
+        track-remainders;
+    };
+};
+
 // Overrides for the input listener node
 &trackball_listener {
     status = "okay";
@@ -95,6 +114,7 @@
             <&zip_xy_to_scroll_mapper>,                         //スクロールモードに変更
             <&zip_scroll_transform INPUT_TRANSFORM_X_INVERT>,   //スクロールのX軸反転
             <&zip_scroll_transform INPUT_TRANSFORM_Y_INVERT>,   //スクロールのY軸反転(2026-07-27 有効化: 上下を逆に)
-            <&zip_scroll_scaler 1 8>;                           //スクロール量を1/8倍
+            <&zip_vscroll_scaler 1 64>,                         //縦スクロール量を1/64倍(2026-09-29 Conductor実測に合わせる・旧1/8)
+            <&zip_hscroll_scaler 0 1>;                          //横スクロールは送らない(Conductor実測で横成分0のため)
     };
 };
